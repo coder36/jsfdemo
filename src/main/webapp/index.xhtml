@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"      
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+<h:head></h:head> 
+	<h:body>
+		<ui:debug hotkey="x"/>
+		<h:form id="myform">
+			<p:panel header="Session Replication Demo"> 
+				<h:panelGrid columns="3" cellpadding="2">
+					<h:outputLabel value="Environment Variable:" for="envproperty" />   			
+					<p:autoComplete id="envproperty" value="#{webDemoBean.environmentVariable}" completeMethod="#{webDemoBean.envinronmentVariableAutoComplete}"/> 	
+					<p:commandButton id="envsubmit" value="Find" update="data"  actionListener="#{webDemoBean.findEnvironmentVariable}" />
+					
+					<h:outputLabel value="System Property:" for="property" />   			
+					<p:autoComplete id="property" value="#{webDemoBean.systemProperty}" completeMethod="#{webDemoBean.systemPropertyAutoComplete}"/> 	
+					<p:commandButton id="syssubmit" value="Find" update="data"  actionListener="#{webDemoBean.findSystemProperty}" />					
+
+					<h:outputLabel value="Jndi:" for="jndi" />   			
+					<p:inputText id="jndi" value="#{webDemoBean.jndi}"/> 	
+					<p:commandButton id="jndisubmit" value="Find" update="data"  actionListener="#{webDemoBean.findJndi}" />					
+
+												
+					<p:commandButton id="reset" value="Reset" update="data"  actionListener="#{webDemoBean.reset}" />					
+				</h:panelGrid>	
+				<br/>	
+				<p:dataTable id="data" var="c" value="#{webDemoBean.data}">  
+	        		<p:column headerText="Time">  
+	            		<h:outputText value="#{c.timestamp}" />  
+	        		</p:column>
+	        		<p:column headerText="Property">  
+	            		<h:outputText value="#{c.propName}" />  
+	        		</p:column>
+	        		<p:column headerText="Value">  
+	            		<h:outputText value="#{c.propValue}" />  
+	        		</p:column>
+	        		
+	        	</p:dataTable> 
+	        		
+        	</p:panel> 
+  		
+	    </h:form>
+	</h:body> 
+</html>
