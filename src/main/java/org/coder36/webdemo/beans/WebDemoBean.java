@@ -7,11 +7,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.naming.InitialContext;
 import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.coder36.webdemo.service.DatabaseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Web Demo Controller
@@ -27,6 +35,15 @@ public class WebDemoBean implements Serializable {
 	private String systemProperty;
 	private String environmentVariable;
 	private String jndi;
+	private String jndiDS;
+	private String sql;
+	private String sqlOutput;
+	
+
+	@ManagedProperty( "#{databaseService}" )
+	private DatabaseService databaseService;
+
+	private Logger log = LoggerFactory.getLogger( WebDemoBean.class );
 
 	public List<String> systemPropertyAutoComplete( String query ) {
 		List<String> l = new ArrayList<String>();
@@ -59,6 +76,7 @@ public class WebDemoBean implements Serializable {
 	}
 	
 	public List<String> envinronmentVariableAutoComplete( String query ) {
+		log.debug( "envinronmentVariableAutoComplete: query=" + query );
 		List<String> l = new ArrayList<String>();
 		Map<String,String> p = System.getenv();
 		for( String s: p.keySet() ) {
@@ -67,6 +85,17 @@ public class WebDemoBean implements Serializable {
 			}
 		}
 		return l;
+	}
+	
+	public void runSql() {
+		try {
+			List<Object []> l = databaseService.getData(jndiDS, sql);
+			ObjectMapper m = new ObjectMapper();
+			sqlOutput = m.writeValueAsString(l); 
+		}
+		catch( Exception e ) {			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error message", e.getMessage()));
+		}
 	}
 	
 	public void reset() {
@@ -123,6 +152,34 @@ public class WebDemoBean implements Serializable {
 	public void setJndi(String jndi) {
 		this.jndi = jndi;
 	}	
+	
+	public String getSql() {
+		return sql;
+	}
+
+	public void setSql(String sql) {
+		this.sql = sql;
+	}	
+	
+	public void setDatabaseService(DatabaseService databaseService) {
+		this.databaseService = databaseService;
+	}	
+	
+	public String getJndiDS() {
+		return jndiDS;
+	}
+
+	public void setJndiDS(String jndiDS) {
+		this.jndiDS = jndiDS;
+	}
+	
+	public String getSqlOutput() {
+		return sqlOutput;
+	}
+	
+	public void setSqlOutput(String sqlOutput) {
+		this.sqlOutput = sqlOutput;
+	}		
 
 	public class DataContainer implements Serializable {
 
@@ -147,6 +204,7 @@ public class WebDemoBean implements Serializable {
 		public Date getTimestamp() {
 			return timestamp;
 		}
+		
 
 	}
 

@@ -9,23 +9,27 @@
 	<h:body>
 		<ui:debug hotkey="x"/>
 		<h:form id="myform">
-			<p:panel header="Session Replication Demo"> 
+			<p:panel header="Property Viewer" toggleable="true" collapsed="false"> 
+				  
 				<h:panelGrid columns="3" cellpadding="2">
 					<h:outputLabel value="Environment Variable:" for="envproperty" />   			
-					<p:autoComplete id="envproperty" value="#{webDemoBean.environmentVariable}" completeMethod="#{webDemoBean.envinronmentVariableAutoComplete}"/> 	
-					<p:commandButton id="envsubmit" value="Find" update="data"  actionListener="#{webDemoBean.findEnvironmentVariable}" />
+					<p:autoComplete id="envproperty" value="#{webDemoBean.environmentVariable}" size="80" completeMethod="#{webDemoBean.envinronmentVariableAutoComplete}"/> 	
+					<p:commandButton id="envsubmit" value="Find" update="data"  actionListener="#{webDemoBean.findEnvironmentVariable()}" />
 					
 					<h:outputLabel value="System Property:" for="property" />   			
-					<p:autoComplete id="property" value="#{webDemoBean.systemProperty}" completeMethod="#{webDemoBean.systemPropertyAutoComplete}"/> 	
+					<p:autoComplete id="property" value="#{webDemoBean.systemProperty}" size="80" completeMethod="#{webDemoBean.systemPropertyAutoComplete}"/> 	
 					<p:commandButton id="syssubmit" value="Find" update="data"  actionListener="#{webDemoBean.findSystemProperty}" />					
 
 					<h:outputLabel value="Jndi:" for="jndi" />   			
-					<p:inputText id="jndi" value="#{webDemoBean.jndi}"/> 	
+					<p:inputText id="jndi" value="#{webDemoBean.jndi}" size="80"/> 	
 					<p:commandButton id="jndisubmit" value="Find" update="data"  actionListener="#{webDemoBean.findJndi}" />					
+
 
 												
 					<p:commandButton id="reset" value="Reset" update="data"  actionListener="#{webDemoBean.reset}" />					
-				</h:panelGrid>	
+				</h:panelGrid>
+				<br/>
+				
 				<br/>	
 				<p:dataTable id="data" var="c" value="#{webDemoBean.data}">  
 	        		<p:column headerText="Time">  
@@ -41,6 +45,20 @@
 	        	</p:dataTable> 
 	        		
         	</p:panel> 
+  			<br/>
+			<p:panel header="Datasource Viewer" toggleable="true" collapsed="true">
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+				<h:panelGrid columns="2" cellpadding="2">
+					<h:outputLabel value="Jndi Datasource:" for="jndiDS" />   			
+					<p:inputText id="jndiDS" size="97" value="#{webDemoBean.jndiDS}"/> 											
+					<h:outputLabel value="Sql:" for="sql" />   			
+					<p:inputTextarea id="sql" cols="100" value="#{webDemoBean.sql}"/>
+					<h:outputLabel value="" for="sqlsubmit" />
+					<p:commandButton id="sqlsubmit" value="Run" update="myform"  actionListener="#{webDemoBean.runSql}" /> 	
+					<h:outputLabel value="Result:" for="res" />
+					<p:inputTextarea id="res" cols="100" value="#{webDemoBean.sqlOutput}"/> 
+				</h:panelGrid>
+			</p:panel>   		
   		
 	    </h:form>
 	</h:body> 
