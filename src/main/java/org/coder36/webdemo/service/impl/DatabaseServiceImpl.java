@@ -1,6 +1,5 @@
 package org.coder36.webdemo.service.impl;
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.coder36.webdemo.advice.Logit;
 import org.coder36.webdemo.service.DatabaseService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +16,7 @@ import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.stereotype.Service;
 
 @Service( "databaseService" )
+@Logit( "here")
 public class DatabaseServiceImpl implements DatabaseService {
 
 	@Override
