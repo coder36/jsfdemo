@@ -1,0 +1,3 @@
+<jboss-web>
+	<context-root>jsfdemo</context-root>
+</jboss-web>

@@ -1,5 +1,7 @@
 package org.coder36.webdemo.service.impl;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,6 +49,33 @@ public class DatabaseServiceImpl implements DatabaseService {
 			}			
 			return l.toArray();
 		}		
+	}
+	
+	public String getMetadata( String jndi ) {
+		try {
+			JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+			bean.setJndiName( jndi );
+			bean.afterPropertiesSet();
+			DataSource ds = (DataSource) bean.getObject();
+			Connection conn = ds.getConnection();
+			
+			String s = ""; 
+			DatabaseMetaData data =  conn.getMetaData();
+			s += "DriverName=" + data.getDriverName() + "\n";
+			s += "DriverVersion=" + data.getDriverVersion() + "\n";
+			s += "DatabaseProductName=" + data.getDatabaseProductName() + "\n";
+			s += "DatabaseProductVersion=" + data.getDatabaseProductVersion() + "\n";
+			s += "DatabaseMajorVersion=" + data.getDatabaseMajorVersion() + "\n";
+			s += "DatabaseMinorVersion=" + data.getDatabaseMinorVersion() + "\n";
+			s += "DriverMajorVesion=" + data.getDriverMajorVersion() + "\n";
+			s += "DriverMinorVesion=" + data.getDriverMinorVersion() + "\n";
+			return s;
+
+		}
+		catch( Exception n ) {
+			throw new RuntimeException( n );
+		}
+			
 	}
 	
 }

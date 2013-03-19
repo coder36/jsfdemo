@@ -126,7 +126,7 @@
 		<profile>
 			<id>jboss</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<dependencies>
 				<!-- Logging -->
@@ -160,7 +160,7 @@
 		<profile>
 			<id>tomcat</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<dependencies>
 				<dependency>

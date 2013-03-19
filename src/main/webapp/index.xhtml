@@ -46,11 +46,13 @@
 	        		
         	</p:panel> 
   			<br/>
-			<p:panel header="Datasource Viewer" toggleable="true" collapsed="true">
+			<p:panel header="Datasource Viewer" toggleable="true" collapsed="false">
 				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 				<h:panelGrid columns="2" cellpadding="2">
 					<h:outputLabel value="Jndi Datasource:" for="jndiDS" />   			
-					<p:inputText id="jndiDS" size="97" value="#{webDemoBean.jndiDS}"/> 											
+					<p:inputText id="jndiDS" size="97" value="#{webDemoBean.jndiDS}"/>
+					<h:outputLabel value="" for="metadata" />
+					<p:commandButton id="metadata" value="Metadata" update="myform"  actionListener="#{webDemoBean.metadata}" /> 											
 					<h:outputLabel value="Sql:" for="sql" />   			
 					<p:inputTextarea id="sql" cols="100" value="#{webDemoBean.sql}"/>
 					<h:outputLabel value="" for="sqlsubmit" />

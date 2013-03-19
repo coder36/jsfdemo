@@ -87,6 +87,15 @@ public class WebDemoBean implements Serializable {
 		return l;
 	}
 	
+	public void metadata() {
+		try {
+			sqlOutput = databaseService.getMetadata( jndiDS );
+		}
+		catch( Exception e ) {			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error message", e.getMessage()));
+		}		
+	}
+	
 	public void runSql() {
 		try {
 			List<Object []> l = databaseService.getData(jndiDS, sql);
