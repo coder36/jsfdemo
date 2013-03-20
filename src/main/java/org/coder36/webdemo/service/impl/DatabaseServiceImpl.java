@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Named;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
@@ -17,8 +18,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.stereotype.Service;
 
-@Service( "databaseService" )
-@Logit( "here")
+@Service
+@Logit
 public class DatabaseServiceImpl implements DatabaseService {
 
 	@Override

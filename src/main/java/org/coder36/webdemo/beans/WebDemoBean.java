@@ -1,8 +1,6 @@
 package org.coder36.webdemo.beans;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -10,7 +8,7 @@ import java.util.Properties;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.InitialContext;
 import javax.naming.NameClassPair;
@@ -26,12 +24,9 @@ import org.slf4j.LoggerFactory;
  * @author Mark Middleton
  */
 @ManagedBean
-@SessionScoped
-public class WebDemoBean implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@RequestScoped
+public class WebDemoBean {
 	
-	private List<DataContainer> data = new ArrayList<DataContainer>();
 	private String systemProperty;
 	private String environmentVariable;
 	private String jndi;
@@ -39,8 +34,18 @@ public class WebDemoBean implements Serializable {
 	private String sql;
 	private String sqlOutput;
 	
+	@ManagedProperty( "#{myStateBean}" )
+	private MyState myState;
 
-	@ManagedProperty( "#{databaseService}" )
+	public MyState getMyState() {
+		return myState;
+	}
+
+	public void setMyState(MyState myState) {
+		this.myState = myState;
+	}
+
+	@ManagedProperty( "#{databaseServiceImpl}" )
 	private DatabaseService databaseService;
 
 	private Logger log = LoggerFactory.getLogger( WebDemoBean.class );
@@ -108,17 +113,17 @@ public class WebDemoBean implements Serializable {
 	}
 	
 	public void reset() {
-		data = new ArrayList<DataContainer>();
+		myState.getData().clear();
 	}
 	
 	public void findEnvironmentVariable() {
 		DataContainer c = new DataContainer( environmentVariable, environmentVariable.isEmpty() ? null : System.getenv( environmentVariable )  );
-		data.add(c);
+		myState.getData().add(c);
 	}	
 	
 	public void findSystemProperty() {
 		DataContainer c = new DataContainer( systemProperty, systemProperty.isEmpty() ? null : System.getProperty( systemProperty ) );
-		data.add(c);
+		myState.getData().add(c);
 	}
 	
 	public void findJndi() {
@@ -126,16 +131,16 @@ public class WebDemoBean implements Serializable {
 			InitialContext ctx = new InitialContext();
 			Object o = ctx.lookup( jndi );
 			DataContainer c = new DataContainer( jndi, o == null ? null : o.toString() );
-			data.add(c);
+			myState.getData().add(c);
 		}
 		catch( Exception e ) {
 			DataContainer c = new DataContainer( jndi, null );
-			data.add(c);
+			myState.getData().add(c);
 		}
 	}
 
 	public List<DataContainer> getData() {
-		return data;
+		return myState.getData();
 	}
 
 	public String getSystemProperty() {
@@ -190,31 +195,6 @@ public class WebDemoBean implements Serializable {
 		this.sqlOutput = sqlOutput;
 	}		
 
-	public class DataContainer implements Serializable {
-
-		private static final long serialVersionUID = 1L;
-		private Date timestamp = new Date();
-		private String propName;
-		private String propValue;		
-		
-		public DataContainer( String propName, String propValue ) {
-			this.propName = propName;
-			this.propValue = propValue;
-		}
-		
-		public String getPropName() {
-			return propName;
-		}
-
-		public String getPropValue() {
-			return propValue;
-		}
-
-		public Date getTimestamp() {
-			return timestamp;
-		}
-		
-
-	}
+	
 
 }
