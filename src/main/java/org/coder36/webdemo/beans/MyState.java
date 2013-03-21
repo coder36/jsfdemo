@@ -1,7 +1,25 @@
 package org.coder36.webdemo.beans;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public interface MyState {
-	public List<DataContainer> getData();
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@ManagedBean( name="myStateBean")
+@SessionScoped
+public class MyState implements Serializable {
+	
+	private List<DataContainer> data = new ArrayList<DataContainer>();	
+	
+	public List<DataContainer> getData() {
+		return data;
+	}
+	
+			
 }

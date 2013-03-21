@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
  * Logging advice
  * @author Mark Middleton
  */
-//@Service
-//@Aspect
+@Service
+@Aspect
 public class LogitAdvice {
 
 	private static final Logger log = LoggerFactory.getLogger(LogitAdvice.class);
